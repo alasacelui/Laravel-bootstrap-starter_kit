@@ -1,10 +1,16 @@
+// Globals
+let pond;
 const token = $('meta[name="csrf-token"]').attr("content");
 const baseUrl = window.location.origin;
-let pond;
+let student, student_task_id;
+// let txtarea;
+// let week_id;
 
 $(() => {
+    //==================================================
+    // Router
     // Activity Logs
-    // if (window.location.href === route("city_admin.activity.index")) {
+    // if (window.location.href === route("councilor.activity.index")) {
     //     const activitylog_data = [
     //         { data: "id" },
     //         { data: "description" },
@@ -14,20 +20,17 @@ $(() => {
     //                 return formatDate(data, "datetime");
     //             },
     //         },
-    //         { data: "actions", orderable: false, searchable: false },
     //     ];
     //     c_index(
     //         $(".activitylog_dt"),
-    //         route("city_admin.activity.index"),
+    //         route("councilor.activity.index"),
     //         activitylog_data
     //     );
     // }
 });
+//==================================================
+// Custom Functions
 
-//=========================================================
-// Custom Functions()
-
-//===============================================================================
 // crud function
 
 async function c_index(dt, route, column) {

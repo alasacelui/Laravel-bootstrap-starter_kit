@@ -1,42 +1,149 @@
 //===================================================================================
 // Global Fn()
 
-function initiateFilePond(element) {
+function initiateFilePond(element, opt = "") {
+    // Register Plugins
+    FilePond.registerPlugin(FilePondPluginFileValidateSize);
+
     // FOR TMP FILE UPLOAD
 
     // Get a reference to the file input element
-    const images = document.querySelector(element);
-    // Create a FilePond instance
-    pond = FilePond.create(images, {
-        storeAsFile: true,
-        server: {
-            url: `${baseUrl}/tmp_upload`,
-            headers: {
-                "X-CSRF-TOKEN": `${token}`,
-            },
-            revert: "/revert",
-        },
+    const images = document.querySelectorAll(element);
+
+    images.forEach((img) => {
+        // if there is an option
+        // then activate onprocessfilestart event
+        if (opt) {
+            // Create a FilePond instance
+            pond = FilePond.create(img, {
+                labelIdle: "Drag & Drop / Browse Files",
+                storeAsFile: true,
+                server: {
+                    url: `${baseUrl}/tmp_upload`,
+                    headers: {
+                        "X-CSRF-TOKEN": `${token}`,
+                    },
+                    revert: "/revert",
+                },
+
+                onprocessfilestart(file) {
+                    // disable other button when the user has attempt to upload files
+                    let buttons = document.querySelectorAll(".task_btn");
+
+                    buttons.forEach((button) => {
+                        if (
+                            img.getAttribute("data-id") !==
+                            button.getAttribute("data-id")
+                        ) {
+                            button.disabled = true;
+                        }
+                    });
+                },
+            });
+        } else {
+            // Create a FilePond instance
+            pond = FilePond.create(img, {
+                storeAsFile: true,
+                server: {
+                    url: `${baseUrl}/tmp_upload`,
+                    headers: {
+                        "X-CSRF-TOKEN": `${token}`,
+                    },
+                    revert: "/revert",
+                },
+            });
+        }
     });
 }
 
-function displayDataToSelectInputField(values, column) {
-    let output = `<option></option>`;
-    if (values.length > 0) {
-        values.forEach((value) => {
-            if (column == "type") {
-                output += `<option value='${value.id}'> ${value.type} </option>`;
-            }
-            if (column == "name") {
-                output += `<option value='${value.id}'> ${value.name} </option>`;
-            }
-            if (column == "fullname") {
-                output += `<option value='${value.id}'> ${value.fname} ${value.lname} </option>`;
-            }
-        });
-    } else {
-        output = `<option>No Data Found</option>`;
+function getFileExtension(file) {
+    return file.split(".").pop();
+}
+
+function handleFileType(file) {
+    const images = ["jpg", "png", "webp", "jpeg"];
+    const docs = ["docx", "pdf", "xlsx", "txt"];
+
+    if (file == "") {
+        return "";
     }
 
+    if (images.includes(file)) {
+        return "images";
+    }
+
+    if (docs.includes(file)) {
+        return "documents";
+    }
+}
+
+function isTrue(bool) {
+    if (bool) {
+        return `<span class='badge bg-success p-2'>Yes</span>`;
+    } else {
+        return `<span class='badge bg-secondary p-2'>No</span>`;
+    }
+}
+
+function displayDataToSelectInputField(values, column, opt = "") {
+    // if there is an optional param
+    if (opt) {
+        // if method is create
+        if (opt.method == "create") {
+            let output = `<option></option>`;
+            if (values.length > 0) {
+                values.forEach((value) => {
+                    output += getColumnValue(column, value);
+                });
+            } else {
+                output = `<option>No Data Found</option>`;
+            }
+            return output;
+        }
+        // if method is edit
+        else {
+            // check if the relational model are more than one
+            let output = getCurrentColumnValue(column, opt.r_model);
+
+            if (values.length > 0) {
+                values.forEach((value) => {
+                    output += getColumnValue(column, value);
+                });
+            } else {
+                output = `<option>No Data Found</option>`;
+            }
+
+            return output;
+        }
+    }
+}
+
+function getCurrentColumnValue(column, value) {
+    let output;
+    if (column == "type") {
+        output += `<option value='${value.id}'> Current ( ${value.type}  )</option>`;
+    }
+    if (column == "name") {
+        output += `<option value='${value.id}'>Current ( ${value.name} )</option>`;
+    }
+    if (column == "fullname") {
+        output += `<option value='${value.id}'> Current ( ${value.fname} ${value.lname} ) </option>`;
+    }
+
+    return output;
+}
+
+function getColumnValue(column, value) {
+    let output = "";
+    if (column == "type") {
+        output += `<option value='${value.id}'> ${value.type} </option>`;
+    }
+    if (column == "name") {
+        output += `<option value='${value.id}'> ${value.name} </option>`;
+    }
+    if (column == "fullname") {
+        output += `<option value='${value.id}'> ${value.fname} ${value.lname} </option>`;
+    }
     return output;
 }
 
@@ -60,9 +167,43 @@ function handleNullAvatar(img) {
 
 function handleNullImage(img) {
     if (img) {
-        return `<img class='img-thumbnail' src='${img}' width='75'>`;
+        return `<img class='img-thumbnail' src='${img}' width='75' id="show_img">`;
     } else {
-        return `<img class='img-thumbnail' src='/img/noimg.png' width='75'>`;
+        return `<img class='img-thumbnail' src='/img/noimg.png' width='75' id="show_img">`;
+    }
+}
+
+function handleScore(score) {
+    if (score) {
+        return score;
+    } else {
+        return 0;
+    }
+}
+
+function convertToDataTable(dt, opt = "") {
+    if (opt) {
+        $(dt).dataTable({
+            lengthChange: false,
+            dom: "Bfrtip",
+            buttons: {
+                dom: {
+                    button: {
+                        className: "btn btn-dark btn-sm btn-rounded mb-2",
+                    },
+                },
+                buttons: [
+                    "copyHtml5",
+                    "excelHtml5",
+                    "csvHtml5",
+                    "pdfHtml5",
+                    "print",
+                ],
+                position: "bottom",
+            },
+        });
+    } else {
+        $(dt).dataTable();
     }
 }
 
@@ -171,9 +312,9 @@ function isApproved(data) {
 // print  0 or 1 to (Pending, Approved , Decline)
 function isActivated(data) {
     if (data === 0) {
-        return `<span class='badge bg_navy_blue p-2 text-uppercase'>Deactivated</span>`;
+        return `<span class='badge bg-crimson p-2 text-uppercase'>Deactivated</span>`;
     } else {
-        return `<span class='badge bg_green p-2 text-uppercase'>Activated</span>`;
+        return `<span class='badge bg-success p-2 text-uppercase'>Activated</span>`;
     }
 }
 
@@ -186,8 +327,8 @@ function isScheduleDone(data) {
 function isTaskDone(data, opt = "") {
     if (opt == "") {
         return data == 0
-            ? `<span class='badge default_bg text-white p-2 text-uppercase'>Pending</span>`
-            : `<span class='badge default_bg text-white p-2 text-uppercase'>Done ✓ </span>`;
+            ? `<span class='badge bg-blue text-white p-2 text-uppercase'>Pending</span>`
+            : `<span class='badge bg-lightblue text-white p-2 text-uppercase'>Done ✓ </span>`;
     } else {
         return opt.status === 0
             ? `<span class='txt_secondary'>${data} ✓ </span>`

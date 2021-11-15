@@ -3,9 +3,6 @@
 namespace App\Models;
 
 use App\Models\Admin\Role;
-use App\Models\Admin\Patient;
-use App\Models\Admin\Barangay;
-use App\Models\Admin\Resident;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -84,26 +81,14 @@ class User extends Authenticatable implements HasMedia
         return $this->hasOne(Media::class, 'model_id', 'id');
     }
 
-    public function getUserAvatarAttribute()
+    public function getAvatarAttribute()
     {
         return optional($this->getFirstMedia('avatar_image'))->getUrl('avatar');
     }
-    public function getUserAvatarThumbnailAttribute()
+    
+    public function getAvatarThumbnailAttribute()
     {
         return optional($this->getFirstMedia('avatar_image'))->getUrl('thumbnail');
     }
 
-
-    public function resident()
-    {
-        return $this->belongsTo(Resident::class);
-    }
-
-    public function barangay()
-    {
-        return $this->belongsTo(Barangay::class);
-    }
-
-
-  
 }

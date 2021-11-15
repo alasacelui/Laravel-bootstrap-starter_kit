@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\All;
 
 use App\Models\User;
 use App\Models\All\TmpImage;
@@ -12,10 +12,16 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        return view('admin.profile.index');
+        if(auth()->user()->hasRole('admin')) {
+            return view('admin.profile.index');
+
+        }
+        else{
+            return view('user.profile.index');
+        }
     }
 
-    public function update(Request $request , User $user, )
+    public function update(Request $request , User $user)
     {
         $data = $request->validate(['password' => 'nullable|min:6|max:15']);
 

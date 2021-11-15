@@ -19,11 +19,17 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         {{--FP--}}
 	    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+        <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
         {{--Leaflet--}}
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
         <script src="https://cdn.jsdelivr.net/combine/npm/leaflet.browser.print@1.0.6/src/leaflet.browser.print.min.js,npm/leaflet.browser.print@1.0.6/src/leaflet.browser.print.sizes.min.js,npm/leaflet.browser.print@1.0.6/src/leaflet.browser.print.utils.min.js"></script>
         {{--Notif--}}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+         {{--Eone--}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        {{-- <script src="{{ asset('js/shared/scroll.js') }}"></script> --}}
+        {{--CK-E--}}
+        <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
         {{--Scripts--}}
         <script src="{{ asset('js/shared/utils.js') }}"></script>

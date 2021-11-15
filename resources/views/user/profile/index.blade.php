@@ -8,21 +8,12 @@
 <div class="container">
     <br><br>
     <div class="row justify-content-center align-items-center">
-        <form action="{{ route('brgy_admin.profile.update',auth()->id()) }}" method="POST" class="col-md-4" >
+        <form action="{{ route('profile.update',auth()->id()) }}" method="POST" class="col-md-4" >
            @csrf @method('PUT')
 
-           @if (auth()->user()->getFirstMedia('avatar_image'))
-            <img src="{{ handleNullImage(auth()->user()->user_avatar) }}" class="img-fluid rounded-circle d-block mx-auto" width='160' alt="">
-           @else
-            <figure>
-                <img src="{{ asset('img/noimg.png') }}" class="img-fluid rounded-circle d-block mx-auto" width='150' alt="">
-                <figcaption>
-                    <p class="text-center mt-1 text-muted">Upload Avatar</p>
-                </figcaption>
-            </figure>
-           @endif
-          
+            <img src="{{ handleNullImage(auth()->user()->avatar) }}" class="img-fluid rounded-circle d-block mx-auto" width='120' alt="">
             <br>
+
             @if (session('message'))
                 <div class="alert alert-warning alert-dismissible fade show p-4" role="alert">
                     {{session('message')}}
@@ -60,17 +51,13 @@
                 <input type="password" class="form-control"" name="password" placeholder="•••••••••" >
             </div>
             <input type="file" name="avatar" id="user_image" >
-            <button class="btn btn_navy_blue form-control">Submit <i class="fas fa-paper-plane ml-1"></i> </button>
+            <button class="btn btn-primary form-control">Submit <i class="fas fa-paper-plane ml-1"></i> </button>
     </div>
 </div>
 {{--End CONTAINER--}}
-
 @endsection
-
 @section('script')
-
     <script>
          initiateFilePond('#user_image')
     </script>
-
 @endsection

@@ -12,45 +12,40 @@
 		<nav id="sidebar" class="sidebar">
 			<div class="sidebar-content js-simplebar">
 				<a class="sidebar-brand" href="#">
-					<img class="img-fluid rounded d-block mx-auto" src="{{ handleNullImage(auth()->user()->getFirstMedia('avatar_image')?->getUrl()) }}"  width="100" alt="avatar.svg" />
+					<img class="img-fluid rounded-circle d-block mx-auto" src="{{ handleNullImage(auth()->user()->avatar_thumbnail) }}"  width="110" alt="avatar.svg" />
         		</a>
 				<ul class="sidebar-nav" >
 					<p class="text-center mb-0
 					">
-						<small >City Administrator </small>
+						<small >Administrator </small>
 					</p>
 					<li class="sidebar-header text-white">
 						Pages
 					</li>
 
 					<li class="sidebar-item admin_dashboard">
-						 <a class="sidebar-link" href="#">
+						 <a class="sidebar-link" href="{{ route('admin.dashboard.index') }}">
               				<i class="align-middle" data-feather="hexagon"></i> <span class="align-middle">Dashboard</span>
            				 </a>
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="#">
+						<a class="sidebar-link" href="{{ route('profile.index') }}">
 							 <i class="align-middle" data-feather="user-check"></i> <span class="align-middle">My Profile</span>
 						</a>
 				   </li>
 
 					<li class="sidebar-item">
-						<a href="#to_brgy" data-bs-toggle="collapse" class="sidebar-link collapsed">
-              				<i class="align-middle" data-feather="users"></i> <span class="align-middle">Barangay Management</span>
+						<a href="#to_dropdown" data-bs-toggle="collapse" class="sidebar-link collapsed">
+              				<i class="align-middle" data-feather="users"></i> <span class="align-middle">Sample Dropdown</span>
             			</a>
-						<ul id="to_brgy" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+						<ul id="to_dropdown" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
 							<li class="sidebar-item">
-								<a class="sidebar-link" href="#">Manage Barangays</a>
+								<a class="sidebar-link" href="#">Dropdown1</a>
 							</li>
-							
-							{{-- <li class="sidebar-item">
-								<a class="sidebar-link" href="{{ route('city_admin.resident.index') }}">Manage Residents</a>
-							</li>
-
 							<li class="sidebar-item">
-								<a class="sidebar-link" href="{{ route('city_admin.barangay_admin.index') }}">Brgy. Admin Registration</a>
-							</li> --}}
+								<a class="sidebar-link" href="#">Dropdown2</a>
+							</li>
 							
 						</ul>
 					</li>
@@ -77,13 +72,13 @@
               				</a>
 
 							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                				<img src="{{ handleNullImage(auth()->user()->user_avatar) }}" class="avatar img-fluid rounded me-1" alt="" /> <span class="text-dark">@auth
+                				<img src="{{ handleNullImage(auth()->user()->avatar_thumbnail) }}" class="avatar img-fluid rounded me-1" alt="" /> <span class="text-dark">@auth
 									{{ Auth::user()->name }}
 								@endauth
 								</span>
               				</a>
 							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
+								<a class="dropdown-item" href="{{ route('profile.index') }}"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
 								<a class="dropdown-item" href="{{ route('logout') }}"
 								onclick="event.preventDefault();
 											  document.getElementById('logout-form').submit();">
