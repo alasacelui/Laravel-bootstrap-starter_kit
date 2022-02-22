@@ -8,35 +8,13 @@
 <div class="container">
     <br><br>
     <div class="row justify-content-center align-items-center">
-        <form action="{{ route('profile.update',auth()->id()) }}" method="POST" class="col-md-4" >
+        <form action="{{ route('profile.update',auth()->id()) }}" method="POST" class="col-md-4" id="profile_form">
            @csrf @method('PUT')
 
-            <img src="{{ handleNullImage(auth()->user()->avatar) }}" class="img-fluid rounded-circle d-block mx-auto" width='120' alt="">
+           <img src="{{ handleNullImage(auth()->user()->avatar_profile) }}" class="img-fluid rounded-circle d-block mx-auto" width='120' alt="">
             <br>
 
-            @if (session('message'))
-                <div class="alert alert-warning alert-dismissible fade show p-4" role="alert">
-                    {{session('message')}}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
-            @if (session('error'))
-                <div class="alert alert-warning alert-dismissible fade show p-4" role="alert">
-                    {{session('error')}}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            @include('layouts.includes.alert')
 
             <div class="form-group mb-2">
                 <label class="form-label">Name</label>
@@ -47,11 +25,21 @@
                 <input type="email" class="form-control" value="{{ auth()->user()->email }}"  readonly>
             </div>
             <div class="form-group mb-2">
-                <label class="form-label">Change Password</label>
+                <label class="form-label">Current Password</label>
+                <input type="text" class="form-control"" name="old">
+            </div>
+            <div class="form-group mb-2">
+                <label class="form-label">New Password</label>
                 <input type="password" class="form-control"" name="password" placeholder="•••••••••" >
             </div>
+            <div class="form-group mb-2">
+                <label class="form-label">Confirm Password</label>
+                <input type="password" class="form-control"" name="password_confirmation" placeholder="•••••••••" >
+            </div>
             <input type="file" name="avatar" id="user_image" >
-            <button class="btn btn-crimson form-control">Submit <i class="fas fa-paper-plane ml-1"></i> </button>
+            <button class="btn btn-dark form-control" 
+            onclick="event.preventDefault();confirm('Do you want to update profile?', '', 'update').then(res => res.isConfirmed ? $('#profile_form').submit() : false)"
+            >Update </button>
     </div>
 </div>
 {{--End CONTAINER--}}

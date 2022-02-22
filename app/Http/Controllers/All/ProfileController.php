@@ -12,18 +12,33 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        if(auth()->user()->hasRole('admin')) {
-            return view('admin.profile.index');
-
-        }
-        else{
-            return view('user.profile.index');
-        }
+        return match(auth()->user()->role->name) {
+                'admin' => view('admin.profile.index'),
+                'user' => view('user.profile.index'),
+            };
     }
 
     public function update(Request $request , User $user)
     {
-        $data = $request->validate(['password' => 'nullable|min:6|max:15']);
+        // update only the password if there is a request
+        if($request->password && $request->old) 
+        {
+            $data = $request->validate([
+                'password' => 'sometimes|min:6|max:15|confirmed',
+                'old' => 'sometimes',
+            ]);
+
+            if(!Hash::check($request->old, $user->password))
+            {
+                return back()->with(['error' => 'The old password you entered is invalid']);
+            }
+
+            $user->update(['password' => Hash::make($data['password'])]); // update password [hashed]
+
+            $this->log_activity($user, 'updated', 'Password', 'some password');
+
+            return back()->with(['success' => 'Password Updated Successfully']);
+        }
 
         if($request->avatar)
         {
@@ -35,17 +50,7 @@ class ProfileController extends Controller
 
             $this->log_activity($user, 'updated', 'Avatar', $user->name);
 
-            return back()->with(['message' => 'Profile Updated Successfully']);
-        }
-
-        // update only the password if there is a request
-        if($data['password']) 
-        {
-            $user->update(['password' => Hash::make($data['password'])]); // update password [hashed]
-
-            $this->log_activity($user, 'updated', 'Password', 'some password');
-
-            return back()->with(['message' => 'Password Updated Successfully']);
+            return back()->with(['success' => 'Profile Updated Successfully']);
         }
         
         return back()->with(['error' => 'Image or Password field is required']);

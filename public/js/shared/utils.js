@@ -1,9 +1,10 @@
 //===================================================================================
 // Global Fn()
 
-function initiateFilePond(element, opt = "") {
+function initiateFilePond(element, file_type = "") {
     // Register Plugins
     FilePond.registerPlugin(FilePondPluginFileValidateSize);
+    FilePond.registerPlugin(FilePondPluginFileValidateType);
 
     // FOR TMP FILE UPLOAD
 
@@ -13,10 +14,10 @@ function initiateFilePond(element, opt = "") {
     images.forEach((img) => {
         // if there is an option
         // then activate onprocessfilestart event
-        if (opt) {
+        if (file_type) {
             // Create a FilePond instance
             pond = FilePond.create(img, {
-                labelIdle: "Drag & Drop / Browse Files",
+                acceptedFileTypes: file_type,
                 storeAsFile: true,
                 server: {
                     url: `${baseUrl}/tmp_upload`,
@@ -25,24 +26,12 @@ function initiateFilePond(element, opt = "") {
                     },
                     revert: "/revert",
                 },
-
-                onprocessfilestart(file) {
-                    // disable other button when the user has attempt to upload files
-                    let buttons = document.querySelectorAll(".task_btn");
-
-                    buttons.forEach((button) => {
-                        if (
-                            img.getAttribute("data-id") !==
-                            button.getAttribute("data-id")
-                        ) {
-                            button.disabled = true;
-                        }
-                    });
-                },
             });
         } else {
             // Create a FilePond instance
             pond = FilePond.create(img, {
+                acceptedFileTypes: [],
+                maxFileSize: "3MB",
                 storeAsFile: true,
                 server: {
                     url: `${baseUrl}/tmp_upload`,
@@ -54,6 +43,21 @@ function initiateFilePond(element, opt = "") {
             });
         }
     });
+}
+
+// get age
+function getAge(date) {
+    if (date.value) {
+        var today = new Date();
+        var birthDate = new Date(date.value);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        $("#age").val(age);
+    }
 }
 
 function getFileExtension(file) {
@@ -144,40 +148,42 @@ function getColumnValue(column, value) {
     if (column == "fullname") {
         output += `<option value='${value.id}'> ${value.fname} ${value.lname} </option>`;
     }
+
     return output;
+}
+
+function getNoOfDaysAndHrs(total_hrs) {
+    const no_of_days = total_hrs / 8; // divide the total_hrs by 8 = no. of days
+
+    return `${no_of_days} day(s) or ${parseInt(total_hrs)} hrs`;
 }
 
 function isNotEmpty(input) {
     if (input.val() == "") {
-        input.addClass("is-invalid");
+        input.parent(".input-group").addClass("is-invalid");
         return false;
     } else {
-        input.removeClass("is-invalid");
+        input.parent(".input-group").removeClass("is-invalid");
+
         return true;
     }
 }
 
 function handleNullAvatar(img) {
     if (img) {
-        return `<img class='img-thumbnail' src='${img}' width='75'>`;
+        return `${img}`;
     } else {
-        return `<img class='img-thumbnail' src='/img/noimg.svg' width='75'>`;
+        return `${baseUrl}/img/noimg.svg`;
     }
 }
 
-function handleNullImage(img) {
-    if (img) {
-        return `<img class='img-thumbnail' src='${img}' width='75' id="show_img">`;
+function handleNullImage(img, with_path = "") {
+    if (img && with_path) {
+        return `<img class='img-thumbnail' src='/${with_path}/${img}' width='150' id="show_img">`;
+    } else if (img && with_path == "") {
+        return `<img class='img-thumbnail' src='${img}' width='150' id="show_img">`;
     } else {
-        return `<img class='img-thumbnail' src='/img/noimg.png' width='75' id="show_img">`;
-    }
-}
-
-function handleScore(score) {
-    if (score) {
-        return score;
-    } else {
-        return 0;
+        return `<img class='img-thumbnail' src='/img/noimg.png' width='150' id="show_img">`;
     }
 }
 
@@ -186,6 +192,7 @@ function convertToDataTable(dt, opt = "") {
         $(dt).dataTable({
             lengthChange: false,
             dom: "Bfrtip",
+            pagingType: "numbers",
             buttons: {
                 dom: {
                     button: {
@@ -203,7 +210,9 @@ function convertToDataTable(dt, opt = "") {
             },
         });
     } else {
-        $(dt).dataTable();
+        $(dt).dataTable({
+            pagingType: "numbers",
+        });
     }
 }
 
@@ -279,7 +288,16 @@ function formatDate(date, opt) {
 
     if (opt == "dateString") {
         const formatted_date = new Date(date);
+        log(formatted_date);
         return formatted_date.toDateString();
+    }
+
+    if (opt == "dateTimeLocal") {
+        var now = new Date(date);
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        const formatted_date = now.toISOString().slice(0, 16);
+
+        return formatted_date;
     }
 }
 
@@ -301,20 +319,20 @@ function formatTime(time, opt = "12") {
 // print  0 or 1 to (Pending, Approved , Decline)
 function isApproved(data) {
     if (data === 0) {
-        return `<span class='badge bg_navy_blue p-2 text-uppercase'>Pending</span>`;
+        return `<span class='badge bg-info p-2 text-uppercase'>Pending <i class='fas fa-spinner ms-1'></i></span>`;
     } else if (data === 1) {
-        return `<span class='badge bg_green text-white p-2 text-uppercase'>Approved</span>`;
+        return `<span class='badge bg-success text-white p-2 text-uppercase'>Approved <i class='fas fa-check-circle ms-1'></i></span>`;
     } else {
-        return `<span class='badge bg-danger p-2 text-uppercase'>Canceled</span>`;
+        return `<span class='badge bg-danger p-2 text-uppercase'>Declined <i class='fas fa-times-circle ms-1'></i></span>`;
     }
 }
 
 // print  0 or 1 to (Pending, Approved , Decline)
 function isActivated(data) {
     if (data === 0) {
-        return `<span class='badge bg-crimson p-2 text-uppercase'>Deactivated</span>`;
+        return `<span class='badge bg-danger p-2 text-uppercase'>Deactivated</span>`;
     } else {
-        return `<span class='badge bg-success p-2 text-uppercase'>Activated</span>`;
+        return `<span class='badge bg-primary p-2 text-uppercase'>Activated</span>`;
     }
 }
 
@@ -364,17 +382,25 @@ function isReserved(patient) {
     }
 }
 
+function titleCase(str) {
+    return str
+        .split("_")
+        .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+        .join(" ");
+}
+
 // show image
 $(document).on("click", "#show_img", function () {
     let image = $(this).attr("src");
     Swal.fire({
         title: "",
+        padding: "1rem",
+        confirmButtonText: "Close",
         imageWidth: "100%",
         imageHeight: "100%",
-        padding: "3em",
         imageUrl: `${image}`,
         backdrop: `
-          rgba(0,0,123,0.4)
+          rgba(28, 146, 133,0.4)
           left top
           no-repeat
         `,

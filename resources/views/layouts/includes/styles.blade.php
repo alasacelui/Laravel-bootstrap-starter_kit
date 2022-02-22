@@ -5,34 +5,34 @@
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+	
+	<!-- Fonts -->
+	<link type="text/css" href="{{ asset('assets/css/utils/mainfont.css') }}" rel="stylesheet" />
     
     {{--Style Sheet--}}
 	<link href="{{ asset('css/shared/app.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/shared/styles.css') }}" rel="stylesheet">
-	<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 
+	{{--Favicon--}}
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/favicon/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicon/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/favicon/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('img/favicon/site.webmanifest') }}">
 
 	{{--FA--}}
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+	<link rel="stylesheet" href="{{ asset('assets/css/utils/fa/css/all.min.css') }}"/>
+
+	{{--FP--}}
+	<link href="{{ asset('assets/css/utils/filepond.css') }}" rel="stylesheet" />
 
 	{{--DataTables--}}
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap5.min.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.7/css/rowReorder.dataTables.min.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.min.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.bootstrap4.min.css">
+	<link href="{{ asset('assets/css/utils/datatables.bootstrap5.min.css') }}" rel="stylesheet" />
+	<link href="{{ asset('assets/css/utils/datatables.rowReorder.min.css') }}" rel="stylesheet" />
+	<link href="{{ asset('assets/css/utils/datatables.responsive.min.css') }}" rel="stylesheet" />
+	<link href="{{ asset('assets/css/utils/buttons.bootstrap5.min.css') }}" rel="stylesheet" />
 
 	{{--Select--}}
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
-
-	{{--Leaflet--}}
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+	<link href="{{ asset('assets/css/utils/select2.min.css') }}" rel="stylesheet" />
 
 	{{--notif--}}
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
-
-	{{--eONE--}}
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link href="{{ asset('assets/css/utils/toastr.min.css') }}" rel="stylesheet" />

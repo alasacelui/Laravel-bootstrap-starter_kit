@@ -81,7 +81,7 @@ class User extends Authenticatable implements HasMedia
         return $this->hasOne(Media::class, 'model_id', 'id');
     }
 
-    public function getAvatarAttribute()
+    public function getAvatarProfileAttribute()
     {
         return optional($this->getFirstMedia('avatar_image'))->getUrl('avatar');
     }

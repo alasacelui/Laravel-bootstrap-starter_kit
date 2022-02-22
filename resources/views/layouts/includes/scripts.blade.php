@@ -1,35 +1,32 @@
-		{{--Jquery--}}
+		{{--Bootstrap + Jquery--}}
         <script src="{{ asset('js/shared/app.js') }}"></script>
+		{{--Custom Admin Kit DB--}}
         <script src="{{ asset('js/app.js') }}"></script>
         {{--DT--}}
-        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/rowreorder/1.2.7/js/dataTables.rowReorder.min.js"></script>
-        <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.bootstrap5.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-        <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+        <script src="{{ asset('assets/js/utils/datatables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/utils/datatables.rowReorder.min.js') }}"></script>
+        <script src="{{ asset('assets/js/utils/datatables.responsive.min.js') }}"></script>
+        <script src="{{ asset('assets/js/utils/datatables.bootstrap5.min.js') }}"></script>
+        <script src="{{ asset('assets/js/utils/datatables.buttons.min.js') }}"></script>
+        <script src="{{ asset('assets/js/utils/buttons.bootstrap5.min.js') }}"></script>
+        <script src="{{ asset('assets/js/utils/jszip.min.js') }}"></script>
+        <script src="{{ asset('assets/js/utils/pdfmake.min.js') }}"></script>
+        <script src="{{ asset('assets/js/utils/vfs_fonts.min.js') }}"></script>
+        <script src="{{ asset('assets/js/utils/html5.min.js') }}"></script>
+        <script src="{{ asset('assets/js/utils/print.js') }}"></script>
         {{--SA--}}
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="{{ asset('assets/js/utils/sweetalert.min.js') }}"></script>
     	{{--Select--}}
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="{{ asset('assets/js/utils/select2.min.js') }}"></script>
         {{--FP--}}
-	    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
-        <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-        {{--Leaflet--}}
-        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-        crossorigin=""></script>
-        <script src="https://cdn.jsdelivr.net/combine/npm/leaflet.browser.print@1.0.6/src/leaflet.browser.print.min.js,npm/leaflet.browser.print@1.0.6/src/leaflet.browser.print.sizes.min.js,npm/leaflet.browser.print@1.0.6/src/leaflet.browser.print.utils.min.js"></script>
+        <script src="{{ asset('assets/js/utils/filepond.js') }}"></script>
+        <script src="{{ asset('assets/js/utils/filepond-plugin-file-validate-size.js') }}"></script>
+        <script src="{{ asset('assets/js/utils/filepond-plugin-file-validate-type.js') }}"></script>
         {{--Notif--}}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-         {{--Eone--}}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        {{-- <script src="{{ asset('js/shared/scroll.js') }}"></script> --}}
-        {{--CK-E--}}
-        <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
-        {{--Scripts--}}
+        <script src="{{ asset('assets/js/utils/toastr.min.js') }}"></script>
+         {{--CK-E--}}
+	    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+        {{--Chart--}}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+        {{--Global Utils--}}
         <script src="{{ asset('js/shared/utils.js') }}"></script>
