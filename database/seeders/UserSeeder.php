@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Administrator',
                 'email' => 'admin@gmail.com', 
-                'password' => '$2y$10$UPNEWO.3925PqB8KN1tl..IFHJSKBINMWxKZNBWB9hBMfNlayuue6',
+                'password' => '$2y$10$UPNEWO.3925PqB8KN1tl..IFHJSKBINMWxKZNBWB9hBMfNlayuue6',  // test1234
                 'is_activated' => 1, 
                 'role_id' => 1,
                 'created_at' => now()
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Dev Ace',
                 'email' => 'user@gmail.com', 
-                'password' => '$2y$10$UPNEWO.3925PqB8KN1tl..IFHJSKBINMWxKZNBWB9hBMfNlayuue6',
+                'password' => '$2y$10$UPNEWO.3925PqB8KN1tl..IFHJSKBINMWxKZNBWB9hBMfNlayuue6', // test1234
                 'is_activated' => 1, 
                 'role_id' => 2,
                 'created_at' => now()
