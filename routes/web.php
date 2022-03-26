@@ -1,31 +1,35 @@
 <?php
 
 // Facades
-
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-
-
-// Shared Restful Controllers
-use App\Http\Controllers\All\ProfileController;
+use Illuminate\Support\Facades\{
+    Auth,
+    Route
+};
 
 // Admin Restful Controllers
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ActivityLogController;
+use App\Http\Controllers\All\ProfileController;
+use App\Http\Controllers\Admin\{
+    ActivityLogController,
+    DashboardController,
+    UserController
+};
 
 // USer - Restful Controllers
-use App\Http\Controllers\All\TmpImageUploadController;
-use App\Http\Controllers\User\DashboardController as UserDashboardController;
-use App\Http\Controllers\User\ActivityLogController as UserActivityLogController;
+use App\Http\Controllers\User\{
+    ActivityLogController as UserActivityLogController,
+    DashboardController as UserDashboardController,
+};
+
+// Shared Restful Controllers
+use App\Http\Controllers\All\{
+    TmpImageUploadController
+};
 
 
 Route::get('/', function () {
     return redirect(route('login'));
 });
 
-Route::get('/test', function () {
-    return view('test');
-});
 
 // Admin
 Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'as' => 'admin.'],function() {
@@ -51,7 +55,6 @@ Route::group(['middleware' => ['auth']],function() {
     Route::resource('profile', ProfileController::class)->parameter('profile', 'user');;
   
 });
-
 
 
 Auth::routes(['register' => false]);
