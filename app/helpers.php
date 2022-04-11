@@ -2,10 +2,115 @@
 
 use Carbon\Carbon;
 
+
+if(!function_exists('calculateTimeRendered'))
+{
+    /**
+     * calculate Time Rendered
+     */
+    function calculateTimeRendered($times): float
+    {
+
+        $collection = collect($times);
+
+        $totals = $collection->reduce(function ($carry, $item) {
+                return $carry + $item;
+            });
+
+            return convertSecondsToMinutes($totals);
+    }
+}
+
+if(!function_exists('calculateTimeLoss'))
+{
+     /**
+     * calculate Time Loss
+     */
+    function calculateTimeLoss($times): float
+    {
+
+        $collection = collect($times);
+
+        $totals = $collection->reduce(function ($carry, $item) {
+                return $carry + $item;
+            });
+
+            return convertSecondsToHours($totals);
+    }
+}
+
+
+if(!function_exists('convertSecondsToHours'))
+{
+     /**
+     * convert seconds - hour
+     */
+    function convertSecondsToHours($seconds)
+    {
+        return floor(($seconds%86400)/3600);
+    }
+}
+
+if(!function_exists('convertSecondsToMinutes'))
+{
+     /**
+     * convert second to minute
+     */
+    function convertSecondsToMinutes($seconds){
+        return  floor(($seconds%3600)/60);
+    }
+}
+
+
+if(!function_exists('differenceInHours'))
+{
+     /**
+     * calculate the difference of two dateTime in hour format
+     */
+    function differenceInHours($startdate,$enddate){
+
+        if($startdate && $enddate) {
+
+            $startTime = Carbon::parse($startdate);
+            $endTime = Carbon::parse($enddate);
+    
+            $totalDuration =  $startTime->diff($endTime)->format('%h hrs -  %i')." Minutes";
+    
+            return $totalDuration;
+        }
+
+        return '';
+    }
+
+}
+
+
+if(!function_exists('differenceInSeconds'))
+{
+     /**
+     * calculate the difference of two dateTime in seconds format
+     */
+    function differenceInSeconds($startdate,$enddate){
+
+        $startTime = Carbon::parse($startdate);
+        $endTime = Carbon::parse($enddate);
+
+        return  $startTime->diffInSeconds($endTime);
+    }
+}
+
+
 if(!function_exists('formatTime'))
 {
+    /**
+     * format Time
+     */
     function formatTime($time, $opt = "12")
     {
+        if(!$time) {
+            return '';
+        }
+
         if($opt == "12") {
             return date('h:iA', strtotime($time));
         }
@@ -13,20 +118,11 @@ if(!function_exists('formatTime'))
 
 }
 
-if(!function_exists('isOpen'))
-{
-    function isOpen($status)
-    {
-        
-        return($status === 0) 
-        ? '<span class="badge default_bg2 p-2 text-white" role="button" onclick="bookSchedule($d)">Book now<i class="fas fa-paper-plane ml-2"></i></span>' 
-        : '<span class="badge secondary_bg p-2 text-white" >Fully Booked <i class="fas fa-times ml-1"></i> </span>';
-    }
-
-}
-
 if(!function_exists('formatDate'))
 {
+    /**
+     * format date
+     */
     function formatDate($date, $opt="fulldate")
     {
        if($opt == "fulldate") 
@@ -54,36 +150,59 @@ if(!function_exists('formatDate'))
 
 }
 
-if(!function_exists('isScheduleDone'))
+if(!function_exists('getDateDiff'))
 {
-    function isScheduleDone($status)
-    {
-       if($status === 0) 
-       {
-          return 'Open';
-       } else {
-          return 'Closed';
-       }
-    }
+    /**
+     * get the difference of two dateTime
+     */
+    function getDateDiff($startdate,$enddate){
 
+
+        if($startdate && $enddate) {
+
+            $startTime = Carbon::parse($startdate);
+            $endTime = Carbon::parse($enddate);
+    
+            $totalDuration =  $startTime->diff($endTime)->format('%d');
+    
+            return $totalDuration;
+        }
+
+        return '';
+     
+    }
 }
 
-if(!function_exists('isTaskDone'))
-{
-    function isTaskDone($status)
-    {
-       if($status === 0) 
-       {
-          return 'Pending';
-       } else {
-          return 'Done';
-       }
-    }
 
+if(!function_exists('handleNullAvatar'))
+{
+    /**
+     * handle Null Avatar Image
+     */
+    function handleNullAvatar($img)
+    {
+        return $img ?? '/img/noimg.svg';
+    }
 }
+
+
+if(!function_exists('handleNullImage'))
+{
+    /**
+     * handle Null Image
+     */
+    function handleNullImage($img)
+    {
+        return $img ?? '/img/noimg.png';
+    }
+}
+
 
 if(!function_exists('isLikedByAuthUser'))
 {
+     /**
+     * check if this model is liked by authenticated user
+     */
     function isLikedByAuthUser($auth_user, $likers) 
     {
         $post_likers = [];// users who likes the post
@@ -97,34 +216,48 @@ if(!function_exists('isLikedByAuthUser'))
 }
 
 
-if(!function_exists('handleNullImage'))
+if(!function_exists('isApproved'))
 {
-    function handleNullImage($img)
+     /**
+     * check if the status is approved
+     */
+    function isApproved($bool)
     {
-        if($img) {
-            return $img;
+        if ($bool == 0) {
+            return "<span class='badge bg-info p-2'>Pending <i class='fas fa-spinner ms-2'></i></span>";
+        } else if($bool == 1) {
+            return "<span class='badge bg-success p-2'>Approved</span>";
+        } else {
+            return "<span class='badge bg-danger p-2'>Declined</span>";
+        }
+    }
+
+}
+
+
+if(!function_exists('getDifferenceInHours'))
+{
+    /**
+     * get the difference in two different dateTime
+     */
+    function getDifferenceInHours($startdate,$enddate){
+
+
+        if($startdate && $enddate) {
+
+            $startTime = Carbon::parse($startdate);
+            $endTime = Carbon::parse($enddate);
+    
+            $totalDuration =  $startTime->diff($endTime)->format('%h');
+    
+            return $totalDuration;
         }
 
-        return '/img/noimg.svg';
+        return '';
+     
     }
 
 }
-
-
-if(!function_exists('calculateElectiveDeliveryDate'))
-{
-    function calculateElectiveDeliveryDate($date)
-    {
-       return Carbon::create($date)->addWeek(39)->format('F d,Y');
-    }
-
-}
-
-
-
-
-
-
 
 
 
